@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://route47lowvoltage.com/sitemap.xml

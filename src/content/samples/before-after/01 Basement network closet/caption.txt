@@ -1,0 +1,1 @@
+A basement tangle of consumer gear rebuilt into a 12U rack: patch panel, UniFi switch, gateway, recorder and battery backup, with every run labeled.

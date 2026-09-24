@@ -1,0 +1,163 @@
+.lightbox {
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: rgb(10 12 14 / 0.94);
+  color: var(--on-dark);
+  overflow: hidden;
+}
+
+.lightbox[open] {
+  display: grid;
+  place-items: center;
+  animation: lightbox-in 0.35s var(--ease-out);
+}
+
+.lightbox::backdrop {
+  background: transparent;
+}
+
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.lightbox__figure {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  margin: 0;
+  padding: 72px 88px 28px;
+  max-width: 100%;
+  max-height: 100%;
+  /* Let clicks on empty space fall through to the dialog, which closes it. */
+  pointer-events: none;
+}
+
+.lightbox__img {
+  width: auto;
+  max-width: min(100%, 1400px);
+  max-height: calc(100dvh - 170px);
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.9);
+  pointer-events: auto;
+  touch-action: pan-y pinch-zoom;
+  animation: lightbox-photo 0.45s var(--ease-out);
+}
+
+@keyframes lightbox-photo {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+.lightbox__caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 14px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.lightbox__cat {
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--amber);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.lightbox__count {
+  color: var(--on-dark-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.lightbox__close,
+.lightbox__nav {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.14);
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.08);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.2s var(--ease-out);
+}
+
+.lightbox__close:hover,
+.lightbox__nav:hover {
+  background: var(--amber);
+  color: var(--ink);
+}
+
+.lightbox__close svg,
+.lightbox__nav svg {
+  width: 24px;
+  height: 24px;
+}
+
+.lightbox__close {
+  top: 16px;
+  right: 16px;
+}
+
+.lightbox__nav {
+  top: 50%;
+  margin-top: -27px;
+}
+
+.lightbox__nav--prev {
+  left: 18px;
+}
+
+.lightbox__nav--prev svg {
+  transform: scaleX(-1);
+}
+
+.lightbox__nav--next {
+  right: 18px;
+}
+
+@media (max-width: 760px) {
+  .lightbox__figure {
+    padding: 72px 12px 96px;
+  }
+
+  .lightbox__img {
+    max-height: calc(100dvh - 230px);
+    border-radius: 8px;
+  }
+
+  .lightbox__nav {
+    top: auto;
+    bottom: 22px;
+    margin-top: 0;
+  }
+
+  .lightbox__nav--prev {
+    left: calc(50% - 66px);
+  }
+
+  .lightbox__nav--next {
+    right: calc(50% - 66px);
+  }
+}

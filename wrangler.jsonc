@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // A static site: Cloudflare serves the built files in ./dist, no Worker code needed.
+  "name": "route47-website",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Unknown URLs get the branded 404 page (public/404.html) with a real 404 status.
+    "not_found_handling": "404-page"
+  }
+  // To serve the site on your own domain, add it under Settings → Domains & Routes in the
+  // Cloudflare dashboard, or uncomment this (the domain must be on your Cloudflare account):
+  // "routes": [
+  //   { "pattern": "route47lowvoltage.com", "custom_domain": true },
+  //   { "pattern": "www.route47lowvoltage.com", "custom_domain": true }
+  // ]
+}

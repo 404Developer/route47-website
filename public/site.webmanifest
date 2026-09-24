@@ -1,0 +1,13 @@
+{
+  "name": "Route 47 Low Voltage",
+  "short_name": "Route 47",
+  "description": "Local, owner-operated low voltage: cameras, Wi-Fi, network drops, doorbells, audio & video. Ubiquiti UniFi specialists.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#16181a",
+  "theme_color": "#16181a",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

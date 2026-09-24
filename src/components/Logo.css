@@ -1,0 +1,36 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 8px;
+}
+
+.logo__shield {
+  width: 44px;
+  height: auto;
+  flex: none;
+  transition: transform 0.4s var(--ease-spring);
+}
+
+.logo:hover .logo__shield {
+  transform: rotate(-6deg) scale(1.06);
+}
+
+.logo__text {
+  display: grid;
+  line-height: 1;
+}
+
+.logo__name {
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.logo__sub {
+  font-size: 15px;
+  margin-top: 3px;
+  opacity: 0.85;
+}

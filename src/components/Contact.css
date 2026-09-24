@@ -1,0 +1,298 @@
+.contact {
+  overflow: hidden;
+  background:
+    radial-gradient(60% 50% at 100% 0%, rgb(237 177 79 / 0.1), transparent 70%),
+    var(--asphalt);
+}
+
+/* Faint shield, like the back of the business card */
+.contact__watermark {
+  position: absolute;
+  top: 50%;
+  left: -6%;
+  width: min(680px, 70vw);
+  height: auto;
+  opacity: 0.045;
+  filter: grayscale(1) brightness(2.2);
+  transform: translateY(-50%) rotate(-8deg);
+  pointer-events: none;
+}
+
+.contact__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 88px);
+  align-items: start;
+}
+
+.contact__phones {
+  display: grid;
+  gap: 6px;
+  margin: 38px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contact__phones li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+}
+
+.contact__number {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1.1;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.2s;
+}
+
+.contact__number svg {
+  width: 0.62em;
+  height: 0.62em;
+  color: var(--amber);
+}
+
+.contact__number:hover {
+  color: var(--amber);
+}
+
+.contact__text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid rgb(255 255 255 / 0.18);
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 15px;
+  text-decoration: none;
+  color: var(--on-dark-muted);
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.contact__text svg {
+  width: 16px;
+  height: 16px;
+}
+
+.contact__text:hover {
+  border-color: var(--teal);
+  color: #fff;
+}
+
+.contact__email,
+.contact__area {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 22px;
+  font-size: 18px;
+  color: var(--on-dark);
+  word-break: break-word;
+}
+
+.contact__email {
+  text-decoration-color: rgb(237 177 79 / 0.6);
+  text-underline-offset: 4px;
+}
+
+.contact__email:hover {
+  color: var(--amber);
+}
+
+.contact__area {
+  display: flex;
+  margin-top: 12px;
+  color: var(--on-dark-muted);
+}
+
+.contact__email svg,
+.contact__area svg {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  color: var(--teal);
+}
+
+/* ---------- Quick request card ---------- */
+
+.contact__card {
+  padding: clamp(24px, 3.5vw, 40px);
+  border-radius: 24px;
+  background: var(--paper);
+  color: var(--ink-2);
+  box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.8);
+  border-top: 6px solid var(--amber);
+}
+
+.contact__card-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.contact__card-sub {
+  margin-top: 8px;
+  color: var(--muted);
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  margin: 20px 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.field > span,
+.field legend {
+  padding: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal-deep);
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1.5px solid var(--line-2);
+  border-radius: 12px;
+  background: var(--white);
+  color: var(--ink);
+  font: inherit;
+  font-size: 17px;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--teal-deep);
+  box-shadow: 0 0 0 4px rgb(47 126 128 / 0.15);
+}
+
+.field ::placeholder {
+  color: #9aa3a7;
+}
+
+.picks legend {
+  margin-bottom: 10px;
+}
+
+.picks__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pick {
+  position: relative;
+  cursor: pointer;
+}
+
+.pick input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pick span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--white);
+  font-weight: 500;
+  font-size: 15px;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.pick:hover span {
+  border-color: var(--ink);
+}
+
+.pick input:checked + span {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+
+.pick input:checked + span::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+.pick input:focus-visible + span {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.contact__send {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.contact__fineprint {
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (max-width: 960px) {
+  .contact__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .field-row,
+  .contact__send {
+    grid-template-columns: 1fr;
+  }
+
+  .field-row .field + .field {
+    margin-top: 0;
+  }
+}
