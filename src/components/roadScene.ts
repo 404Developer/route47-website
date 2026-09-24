@@ -1,12 +1,14 @@
-// Night drive down Route 47: a perspective highway (the road from the logo) with
-// utility poles, sagging low-voltage lines and data pulses running along them.
-// Plain canvas 2D. Pauses off-screen, and draws a single still frame for reduced motion.
+// Night drive down Route 47: a perspective highway with long-exposure traffic trails
+// (headlights coming, taillights going), utility poles, sagging low-voltage lines and data
+// pulses running along them. Plain canvas 2D. Pauses off-screen, and draws a single still
+// frame for reduced motion.
 
 type RGB = readonly [number, number, number]
 
 const AMBER: RGB = [237, 177, 79]
 const TEAL: RGB = [147, 200, 201]
 const WARM_WHITE: RGB = [255, 240, 214]
+const TAIL_RED: RGB = [255, 74, 58]
 
 const CAM_H = 1.5 // camera height above the road (world units)
 const LANE = 3.7
@@ -66,7 +68,16 @@ export function startRoadScene(canvas: HTMLCanvasElement, { reducedMotion }: { r
   ]
 
   const pulses: Pulse[] = Array.from({ length: 16 }, (_, i) => spawnPulse(i % 2 ? 1 : -1, true))
-  const cars: Car[] = Array.from({ length: 7 }, (_, i) => spawnCar(i < 3, true))
+  // Cars live between just below the bottom of the screen and far down the road.
+  const carNear = () => Math.max(zNear, 2) * 0.8
+  const carFar = Z_FAR * 0.8
+  // Spread the cars out along their trips so there's traffic from the very first frame.
+  const ONCOMING = 4
+  const SAME_WAY = 4
+  const cars: Car[] = [
+    ...Array.from({ length: ONCOMING }, (_, i) => spawnCar(true, (i + rand() * 0.7) / ONCOMING)),
+    ...Array.from({ length: SAME_WAY }, (_, i) => spawnCar(false, (i + rand() * 0.7) / SAME_WAY)),
+  ]
 
   function spawnPulse(side: -1 | 1, anywhere = false): Pulse {
     const outbound = rand() > 0.35
@@ -79,15 +90,20 @@ export function startRoadScene(canvas: HTMLCanvasElement, { reducedMotion }: { r
     }
   }
 
-  // Oncoming traffic (left lanes) rushes past; traffic in our direction slowly pulls away.
-  // `v` is the speed relative to the camera.
-  function spawnCar(oncoming: boolean, anywhere = false): Car {
+  // Oncoming traffic (left lanes) rushes past with white headlights; traffic going our way
+  // (right lanes) slowly pulls away showing red taillights. `v` is speed relative to the camera.
+  // `progress` (0..1) starts a car part-way through its trip.
+  function spawnCar(oncoming: boolean, progress?: number): Car {
     const lane = rand() > 0.5 ? 1.5 : 0.5
+    const near = carNear()
+    let z: number
+    if (progress === undefined) z = oncoming ? carFar + rand() * 30 : near
+    else z = oncoming ? carFar - (carFar - near) * progress : near + (carFar - near) * progress
     return {
       x: (oncoming ? -1 : 1) * LANE * lane,
-      z: anywhere ? 20 + rand() * (Z_FAR - 60) : oncoming ? Z_FAR + rand() * 160 : zNear * 0.65,
-      v: SPEED * (oncoming ? 2.1 + rand() * 0.5 : 0.25 + rand() * 0.35),
-      color: oncoming ? WARM_WHITE : AMBER,
+      z,
+      v: SPEED * (oncoming ? 1.9 + rand() * 0.6 : 0.3 + rand() * 0.45),
+      color: oncoming ? WARM_WHITE : TAIL_RED,
       oncoming,
     }
   }
@@ -145,7 +161,7 @@ export function startRoadScene(canvas: HTMLCanvasElement, { reducedMotion }: { r
     for (let i = 0; i < cars.length; i++) {
       const c = cars[i]
       c.z += (c.oncoming ? -c.v : c.v) * dt
-      if (c.z < zNear * 0.6 || c.z > Z_FAR + 200) cars[i] = spawnCar(c.oncoming)
+      if (c.oncoming ? c.z < carNear() * 0.7 : c.z > carFar) cars[i] = spawnCar(c.oncoming)
     }
   }
 
@@ -248,36 +264,46 @@ export function startRoadScene(canvas: HTMLCanvasElement, { reducedMotion }: { r
     }
   }
 
+  // Long-exposure light trails: a bright lamp at the car, with its streak fading out behind it.
   function drawCars() {
     ctx.globalCompositeOperation = 'lighter'
+    ctx.lineCap = 'round'
+    const cutoff = carNear() * 0.7
     for (const c of cars) {
-      if (c.z < zNear * 0.6) continue
-      const trail = c.oncoming ? 9 : 7
-      const a = fog(c.z) * 0.9
+      if (c.z < cutoff) continue
+      const a = Math.min(1, fog(c.z) * 1.1)
       if (a <= 0.02) continue
-      for (const side of [-0.75, 0.75]) {
-        const x = c.x + side
-        const zA = c.z
-        // Light trail streams out behind the direction of travel.
-        const zB = Math.max(zNear * 0.6, c.oncoming ? c.z + trail : c.z - trail)
-        const grad = ctx.createLinearGradient(sx(x, zA), sy(0.65, zA), sx(x, zB), sy(0.65, zB))
-        grad.addColorStop(0, rgba(c.color, a))
-        grad.addColorStop(1, rgba(c.color, 0))
-        ctx.strokeStyle = grad
-        ctx.lineWidth = Math.max(1, (0.22 * focal) / zA)
-        ctx.lineCap = 'round'
-        ctx.beginPath()
-        ctx.moveTo(sx(x, zA), sy(0.65, zA))
-        ctx.lineTo(sx(x, zB), sy(0.65, zB))
-        ctx.stroke()
+      const zA = c.z
+      const zB = Math.max(cutoff, c.oncoming ? c.z + 16 : c.z - 11)
+      const y = c.oncoming ? 0.7 : 0.8
+      const w = clamp((0.2 * focal) / zA, 1, 7)
+      for (const side of [-0.8, 0.8]) {
+        const x1 = sx(c.x + side, zA)
+        const y1 = sy(y, zA)
+        const x2 = sx(c.x + side, zB)
+        const y2 = sy(y, zB)
+        // soft glow first, then the bright core
+        for (const [lineWidth, alpha] of [
+          [w * 3.2, a * 0.22],
+          [w, a],
+        ]) {
+          const grad = ctx.createLinearGradient(x1, y1, x2, y2)
+          grad.addColorStop(0, rgba(c.color, alpha))
+          grad.addColorStop(1, rgba(c.color, 0))
+          ctx.strokeStyle = grad
+          ctx.lineWidth = lineWidth
+          ctx.beginPath()
+          ctx.moveTo(x1, y1)
+          ctx.lineTo(x2, y2)
+          ctx.stroke()
+        }
+        const r = w * 2.4
+        const lamp = ctx.createRadialGradient(x1, y1, 0, x1, y1, r)
+        lamp.addColorStop(0, rgba(c.color, a))
+        lamp.addColorStop(1, rgba(c.color, 0))
+        ctx.fillStyle = lamp
+        ctx.fillRect(x1 - r, y1 - r, r * 2, r * 2)
       }
-      // Soft pool of light on the asphalt
-      const r = (2.2 * focal) / c.z
-      const pool = ctx.createRadialGradient(sx(c.x, c.z), sy(0, c.z), 0, sx(c.x, c.z), sy(0, c.z), r)
-      pool.addColorStop(0, rgba(c.color, 0.12 * a))
-      pool.addColorStop(1, rgba(c.color, 0))
-      ctx.fillStyle = pool
-      ctx.fillRect(sx(c.x, c.z) - r, sy(0, c.z) - r, r * 2, r * 2)
     }
     ctx.globalCompositeOperation = 'source-over'
   }

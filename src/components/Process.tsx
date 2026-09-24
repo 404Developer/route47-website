@@ -17,7 +17,7 @@ export function Process() {
         <ol className="route">
           {steps.map((s, i) => (
             <li className="route__stop" key={s.title} data-reveal style={{ '--d': i } as CSSProperties}>
-              <Shield className="route__marker" label={String(i + 1)} />
+              <Shield className="route__marker" step={i + 1} />
               <h3 className="route__title">{s.title}</h3>
               <p className="route__text">{s.text}</p>
             </li>

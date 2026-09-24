@@ -61,16 +61,24 @@ Phone numbers, email, service area, the services list, the "why us" points and t
 
 ## Logo files
 
-`brand/` holds the logo as vector files, recreated exactly from the shield on the quote documents:
+`brand/` holds the business-card logo (the "ROUTE / 47 / IL" shield) rebuilt as clean vector artwork:
 
 | File | Use |
 | --- | --- |
-| `shield.svg`, `shield-1024.png` | The shield on its own |
-| `logo-horizontal.svg`, `logo-horizontal-2000.png` | Shield + "Route 47 / Low Voltage", for light backgrounds |
-| `logo-horizontal-light.svg`, `logo-horizontal-light-2000.png` | Same, white text for dark backgrounds |
+| `shield.pdf` | Vector PDF, 2" wide, for the printer (business cards, stickers, vehicle graphics) |
+| `shield.svg` | Vector master for design apps and the web |
+| `shield-1024.png`, `shield-3000.png` | Transparent PNGs |
+| `shield-dark-bg.svg` | With a light sign-style border, for dark backgrounds |
+| `logo-horizontal.svg`, `logo-horizontal-2400.png` | Shield + "Route 47 / Low Voltage", for light backgrounds |
+| `logo-horizontal-light.svg`, `logo-horizontal-light-2400.png` | Same, white text for dark backgrounds |
 | `og-image.svg` | Source of the image shown when the site is shared on social media / in texts |
 
-The site draws the shield from `src/components/Shield.tsx` (same paths).
+- Colors: tan `#DBAB72`, sage `#9FAEA3`, black `#1A1612`.
+- "ROUTE" and "IL" are set in **Overpass ExtraBold** (free, SIL Open Font License), the open-source version of
+  Highway Gothic, the lettering on US road signs. The "47" is traced from the card artwork. All text is converted to
+  outlines, so the files don't need the font installed.
+
+The site draws the same artwork from `src/components/shieldArt.ts` via `src/components/Shield.tsx`.
 
 ## Running it locally
 
