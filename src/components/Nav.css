@@ -27,8 +27,7 @@ html:not(.js) .nav,
   transition: height 0.35s var(--ease-out);
 }
 
-.nav--scrolled .nav__bar,
-.nav--open .nav__bar {
+.nav--scrolled .nav__bar {
   height: 66px;
 }
 
@@ -132,16 +131,20 @@ html:not(.js) .nav,
 
 /* ---------- Mobile drawer ---------- */
 
+/* A full-screen layer just under the bar (z-index 50), padded so its content starts below it. */
 .nav__drawer {
   position: fixed;
-  inset: 66px 0 0;
+  inset: 0;
+  z-index: 49;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 32px;
-  padding: 28px var(--gutter) max(28px, env(safe-area-inset-bottom));
+  padding: calc(var(--nav-h) + 24px) var(--gutter) max(28px, env(safe-area-inset-bottom));
   background: var(--asphalt);
+  color: var(--on-dark);
   overflow-y: auto;
+  overscroll-behavior: contain;
   opacity: 0;
   visibility: hidden;
   transition:
@@ -149,7 +152,7 @@ html:not(.js) .nav,
     visibility 0s 0.3s;
 }
 
-.nav--open .nav__drawer {
+.nav__drawer.is-open {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.3s ease;
@@ -185,7 +188,7 @@ html:not(.js) .nav,
   color: var(--amber);
 }
 
-.nav--open .nav__drawer nav a {
+.nav__drawer.is-open nav a {
   opacity: 1;
   transform: none;
 }
