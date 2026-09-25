@@ -72,6 +72,7 @@ Phone numbers, email, service area, the services list, the "why us" points and t
 | `logo-horizontal.svg`, `logo-horizontal-2400.png` | Shield + "Route 47 / Low Voltage", for light backgrounds |
 | `logo-horizontal-light.svg`, `logo-horizontal-light-2400.png` | Same, white text for dark backgrounds |
 | `og-image.svg` | Source of the image shown when the site is shared on social media / in texts |
+| `business-cards/` | Print-ready Vistaprint business card (front + back PDF). See its README |
 
 - Colors: tan `#DBAB72`, sage `#9FAEA3`, black `#1A1612`.
 - "ROUTE" and "IL" are set in **Overpass ExtraBold** (free, SIL Open Font License), the open-source version of

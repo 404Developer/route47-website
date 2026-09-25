@@ -60,15 +60,15 @@ export const services: Service[] = [
   {
     icon: 'dish',
     title: 'Starlink & internet',
-    text: 'Starlink mounted on the roof — sealed, grounded and aimed — then connected to your UniFi gateway as your internet or as a backup line.',
-    tags: ['Roof mounts', 'Grounding', 'Failover'],
+    text: 'Starlink mounted on the roof — sealed and aimed — then connected to your UniFi gateway as your internet or as a backup line.',
+    tags: ['Roof mounts', 'Failover'],
   },
 ]
 
 export const reasons = [
   {
     word: 'Local.',
-    text: 'Marengo-area and proud of it. Close by for the install, and close by when you need us after.',
+    text: "Marengo-area and proud of it. Close by for the install, and just down the road when you're ready to add more.",
   },
   {
     word: 'Can do.',
